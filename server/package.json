@@ -4,6 +4,7 @@
   "description": "ECCO Crystal Cleansing Operation",
   "main": "main.js",
   "scripts": {
+    "start": "node main",
     "test": "true"
   },
   "repository": {
