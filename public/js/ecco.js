@@ -3,12 +3,17 @@ var scene,
 	height,
 	camera,
 	renderer,
+	loader,
 	clock,
 	stereo,
 	domElement,
-	started;
+	started,
+	c;
+
+var Cockpit = require('../assets/Cockpit/cockpit.js');
 
 function init() {
+
 	started = true;
 	width = window.innerWidth;
 	height = window.innerHeight;
@@ -21,16 +26,15 @@ function init() {
 	container = document.getElementById("container");
 	domElement = renderer.domElement;
 	container.appendChild(domElement);
+	loader = new THREE.JSONLoader();
 	setupScene();
 }
 
 function setupScene() {
-	
-	var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-	var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-	cube = new THREE.Mesh( geometry, material );
-	scene.add(cube);
-	camera.position.z = 5;
+
+	c = Cockpit(loader);
+	scene.add(c);
+	camera.position.z = 4
 
 	requestAnimationFrame(render);
 }
@@ -60,9 +64,8 @@ function render() {
 function update(dt){
 	resize();
 	camera.updateProjectionMatrix();
-
-	cube.rotation.x += 1;
-	cube.rotation.y += 1;
+	c.rotation.z += 0.01;
+	c.rotation.x += 0.01;
 }
 
 init();
