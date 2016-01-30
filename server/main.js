@@ -15,7 +15,11 @@ var rooms = [];
 app.get('/', function(req, res) {
 	var id = shortid.generate();
 	rooms.push(id);
-	res.render('ecco', { id: id });
+	res.render('client', {room: id /*Generate bit.ly URL and send it here too*/});
+});
+
+app.get('/controller/:roomId', function(req, res) {
+	res.render('controller', {room: req.params.roomId})
 });
 
 server.listen(config.port, function(req, res) {
