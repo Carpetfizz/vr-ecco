@@ -16,12 +16,10 @@ app.get('/', function (req, res) {
 	res.render('ecco');
 });
 
-var port = process.env.PORT || 3030;
-
-server.listen(port, function(req, res){
-	console.log("Listening on "+port);
+server.listen(config.port, function(req, res){
+	console.log(`Listening on ${config.port}!`);
 });
 
 io.on('connection', function (socket) {
-
+	console.log(socket);
 });
