@@ -3,21 +3,25 @@ var shortid = require('shortid');
 
 var express = require('express');
 var app = express();
-var server = require('http').createServer(app);
+var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-io.on('connection', function(socket) {
-	console.log(socket);
-});
-
-app.use(express.static(__dirname + '/../public'));
-
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/../public'));
 app.set('views', __dirname + '/../views');
 
-app.use('/', (req, res) => {
+var rooms = [];
+
+app.get('/', function (req, res) {
 	res.render('ecco');
 });
 
-server.listen(config.port);
-console.log(`Listening on port ${config.port}!`);
+var port = process.env.PORT || 3030;
+
+server.listen(port, function(req, res){
+	console.log("Listening on "+port);
+});
+
+io.on('connection', function (socket) {
+
+});
