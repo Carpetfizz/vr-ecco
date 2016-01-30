@@ -13,13 +13,13 @@ app.set('views', __dirname + '/../views');
 var rooms = [];
 
 app.get('/', function(req, res) {
-	var id = shortid.generate();
-	rooms.push(id);
-	res.render('client', {room: id /*Generate bit.ly URL and send it here too*/});
+	var roomID = shortid.generate();
+	rooms.push(roomID);
+	res.render('controller', { roomID: roomID /* Generate bit.ly URL and send it here too */ });
 });
 
-app.get('/controller/:roomId', function(req, res) {
-	res.render('controller', {room: req.params.roomId})
+app.get('/client/:roomId', function(req, res) {
+	res.render('client', { roomID: req.params.roomID });
 });
 
 server.listen(config.port, function(req, res) {
