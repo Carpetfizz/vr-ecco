@@ -30,5 +30,11 @@
   "bugs": {
     "url": "https://github.com/Carpetfizz/vr-ecco/issues"
   },
-  "homepage": "https://github.com/Carpetfizz/vr-ecco#readme"
+  "homepage": "https://github.com/Carpetfizz/vr-ecco#readme",
+  "dependencies": {
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "shortid": "^2.2.4",
+    "socket.io": "^1.4.5"
+  }
 }
