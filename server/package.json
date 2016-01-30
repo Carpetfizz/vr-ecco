@@ -1,0 +1,34 @@
+{
+  "name": "vr-ecco",
+  "version": "0.0.1",
+  "description": "ECCO Crystal Cleansing Operation",
+  "main": "main.js",
+  "scripts": {
+    "test": "true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Carpetfizz/vr-ecco.git"
+  },
+  "keywords": [
+    "ecco",
+    "crystal",
+    "cleansing",
+    "operation",
+    "vr",
+    "cardboard",
+    "ggj16",
+    "ggj",
+    "experience",
+    "global",
+    "game",
+    "jam",
+    "berekeley"
+  ],
+  "author": "",
+  "license": "CC-BY-1.0",
+  "bugs": {
+    "url": "https://github.com/Carpetfizz/vr-ecco/issues"
+  },
+  "homepage": "https://github.com/Carpetfizz/vr-ecco#readme"
+}
