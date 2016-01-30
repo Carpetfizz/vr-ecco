@@ -13,7 +13,7 @@ app.set('views', __dirname + '/../views');
 var rooms = [];
 
 app.get('/', function (req, res) {
-	res.render('ecco');
+	res.render('client');
 });
 
 server.listen(config.port, function(req, res) {

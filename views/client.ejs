@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<script>
+			var isMobile = false;
+			if (/Mobi/.test(navigator.userAgent)) {
+			   	isMobile = true;
+			}
+		</script>
+		<style>
+			body {
+				margin: 0;
+			}
+			canvas {
+				bottom: 0;
+				left: 0;
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				background-color: black;
+			}
+		</style>
+		<script src="/libs/three.min.js"></script>
+		<script src="/libs/StereoEffect.js"></script>
+
+	</head>
+	<body>
+		<div id="container"></div>
+		<script src="/js/ecco.js"></script>
+	</body>
+</html>
