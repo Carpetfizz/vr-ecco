@@ -16,7 +16,7 @@ app.get('/', function (req, res) {
 	res.render('ecco');
 });
 
-server.listen(config.port, function(req, res){
+server.listen(config.port, function(req, res) {
 	console.log(`Listening on ${config.port}!`);
 });
 
