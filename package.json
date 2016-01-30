@@ -4,7 +4,9 @@
   "description": "ECCO Crystal Cleansing Operation",
   "main": "main.js",
   "scripts": {
-    "start": "node main",
+    "start": "node server/main",
+    "build": "browserify public/js/ecco.js -o ./public/js/bundle.js",
+    "watch": "watchify public/js/ecco.js -o public/js/bundle.js",
     "test": "true"
   },
   "repository": {
