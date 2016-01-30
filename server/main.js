@@ -12,14 +12,50 @@ app.set('views', __dirname + '/../views');
 
 var rooms = [];
 
-app.get('/', function (req, res) {
-	res.render('client');
+app.get('/', function(req, res) {
+	var id = shortid.generate();
+	rooms.push(id);
+	res.render('ecco', { id: id });
 });
 
 server.listen(config.port, function(req, res) {
-	console.log(`Listening on ${config.port}!`);
+	console.info(`Listening on ${config.port}!`);
 });
 
-io.on('connection', function (socket) {
-	console.log(socket);
+io.on('connection', function(socket) {
+	socket.on('client:initialize', function(id) {
+		socket.room = id;
+		socket.join(id);
+
+		socket.broadcast.to(socket.room).emit('client:ready');
+
+		socket.on('controller:keyup', function(key) {
+			socket.emit('controller:keyup', key);
+		});
+
+		socket.on('controller:keydown', function(key) {
+			socket.emit('controller:keydown', key);
+		});
+
+		socket.on('controller:mouseupdate', function(x, y) {
+			socket.emit('controller:mouseupdate', x, y);
+		});
+	});
+
+	socket.on('controller:initialize', function(id) {
+		socket.room = id;
+		socket.join(id);
+
+		socket.on('controller:keyup', function(key) {
+			socket.broadcast.to(socket.room).emit('controller:keyup', key);
+		});
+
+		socket.on('controller:keydown', function(key) {
+			socket.broadcast.to(socket.room).emit('controller:keydown', key);
+		});
+
+		socket.on('controller:mouseupdate', function(x, y) {
+			socket.broadcast.to(socket.room).emit('controller:mouseupdate', x, y);
+		});
+	});
 });
