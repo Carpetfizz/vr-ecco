@@ -7,9 +7,9 @@ var scene,
 	clock,
 	stereo,
 	domElement,
-	started,
-	c;
+	started;
 
+var Utils = require('../Utils.js');
 var Cockpit = require('../assets/Cockpit/cockpit.js');
 
 function init() {
@@ -31,10 +31,14 @@ function init() {
 }
 
 function setupScene() {
+	scene.add(camera);
+	var cockpit = Cockpit(loader);
+	cockpit.rotation.y = 0;
+	scene.add(cockpit);
 
-	c = Cockpit(loader);
-	scene.add(c);
-	camera.position.z = 4
+	camera.position.z = 5;
+
+	Utils.debugaxis(scene, 100);
 
 	requestAnimationFrame(render);
 }
@@ -64,8 +68,6 @@ function render() {
 function update(dt){
 	resize();
 	camera.updateProjectionMatrix();
-	c.rotation.z += 0.01;
-	c.rotation.x += 0.01;
 }
 
 init();
