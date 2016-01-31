@@ -19,14 +19,6 @@ function lockChangeAlert() {
 	}
 }
 
-var tracker = document.createElement('p');
-var body = document.querySelector('body');
-body.appendChild(tracker);
-tracker.style.position = 'absolute';
-tracker.style.top = '0';
-tracker.style.right = '10px';
-tracker.style.backgroundColor = 'white';
-
 function canvasLoop(e) {
 	var movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
 	var movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
@@ -35,8 +27,6 @@ function canvasLoop(e) {
 	y += movementY;
 
 	socket.emit('controller:mouseupdate', x, y);
-
-	tracker.innerHTML = "X position: " + x + ', Y position: ' + y;
 
 	window.requestAnimationFrame(canvasLoop);
 }
