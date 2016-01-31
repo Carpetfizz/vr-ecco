@@ -14,7 +14,7 @@ var scene,
 var Utils = require('../Utils.js');
 var Sky = require('../assets/Sky.js');
 var GroundTerrain = require('../assets/GroundTerrain.js');
-var Cockpit = require('../assets/Cockpit/cockpit.js');
+var Ship = require('../assets/Ship/ship.js');
 var StarSystem = require('../assets/StarSystem.js');
 var Asteroid = require('../assets/Asteroid.js');
 var gameObjects = [];
@@ -37,6 +37,7 @@ function init() {
 	loader = new THREE.JSONLoader();
 	textureLoader = new THREE.TextureLoader();
 	controls = new DeviceOrientationController(camera, domElement);
+
 	setupScene();
 
 	if (isMobile) {
@@ -45,27 +46,27 @@ function init() {
 }
 
 function setupScene() {
-	var cockpit = new Cockpit(loader);
+	var ship = new Ship(loader);
 
-	scene.add(cockpit);
-	cockpit.add(camera);
+	scene.add(ship);
+	ship.add(camera);
 
 	scene.add(new GroundTerrain());
 	scene.add(new Sky(textureLoader));
 
-	camera.position.y = cockpit.position.y + 1;
-	camera.position.z = cockpit.position.z - 5;
+	camera.position.y = ship.position.y + 1;
+	camera.position.z = ship.position.z - 5;
 	camera.rotation.y = Math.PI;
 	camera.zoom = 1.2;
 
 	var light = new THREE.PointLight(0xffffff, 1, 100);
-	light.position.set(0, cockpit.position.y + 1, cockpit.position.z - 5);
+	light.position.set(0, ship.position.y + 1, ship.position.z - 5);
 	scene.add(light);
 
 	var hemiLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
 	scene.add(hemiLight);
 
-	gameObjects.push(cockpit);
+	gameObjects.push(ship);
 
 	Utils.debugaxis(scene, 100);
 
