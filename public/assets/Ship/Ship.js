@@ -28,7 +28,7 @@ Ship.prototype.getDirection = function() {
 	var rotation = new THREE.Euler(0, 0, 0, 'YXZ');
 
 	return function(v) {
-		rotation.set(this.pitchObject.rotation.x, this.yawObject.rotation.y, 0);
+		rotation.set(-this.pitchObject.rotation.x, this.yawObject.rotation.y, 0);
 
 		v.copy(direction).applyEuler(rotation);
 
@@ -100,7 +100,7 @@ Ship.prototype.update = function(dt, keysPressed) {
 	}
 
 	if (keysPressed['S']) {
-		this.speed = 2;
+		this.speed = -2;
 	} else if (this.speed < 0) {
 		this.speed = 0;
 	}
@@ -109,7 +109,7 @@ Ship.prototype.update = function(dt, keysPressed) {
 
 	this.yawObject.position.x += Math.sin(this.yawObject.rotation.y) * this.speed;
 	this.yawObject.position.z += Math.cos(this.yawObject.rotation.y) * this.speed;
-	this.yawObject.position.z += this.yawObject.rotation.z * this.speed;
+	this.yawObject.position.y += -Math.sin(this.pitchObject.rotation.x) * this.speed;
 };
 
 module.exports = Ship;

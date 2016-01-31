@@ -29,7 +29,7 @@ function canvasLoop(e) {
 	x += movementX;
 	y += movementY;
 
-	if (movementX > 0 || movementY > 0) {
+	if (movementX !== 0 || movementY !== 0) {
 		controller.emit('controller:mouseupdate', x, y, movementX, movementY);
 	}
 
