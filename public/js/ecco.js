@@ -17,6 +17,7 @@ var Utils = require('../Utils.js');
 var Sky = require('../assets/Sky.js');
 var GroundTerrain = require('../assets/GroundTerrain.js');
 var Ship = require('../assets/Ship/Ship.js');
+var AIShip = require('../assets/AIShip/AIShip.js');
 var StarSystem = require('../assets/StarSystem.js');
 var Asteroid = require('../assets/Asteroid.js');
 var gameObjects = [];
@@ -36,7 +37,7 @@ function init() {
 	width = window.innerWidth;
 	height = window.innerHeight;
 	scene = new THREE.Scene();
-	camera = new THREE.PerspectiveCamera(60, width / height, 1, 11000);
+	camera = new THREE.PerspectiveCamera(60, width / height, 0.01, 11000);
 	renderer = new THREE.WebGLRenderer();
 	renderer.setSize(width, height);
 	renderer.shadowMap.enabled = true;
@@ -78,7 +79,7 @@ function setupScene() {
 	scene.add(new Sky(textureLoader));
 
 	camera.position.y = ship.mesh.position.y + 1;
-	camera.position.z = ship.mesh.position.z - 5;
+	camera.position.z = ship.mesh.position.z - 4.5;
 	camera.rotation.y = Math.PI;
 	camera.zoom = 1.2;
 

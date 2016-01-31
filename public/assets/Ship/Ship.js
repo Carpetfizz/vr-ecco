@@ -5,7 +5,7 @@ var Ship = function Ship(loader) {
 	this.speed = 0;
 
 	this.model = loader.parse(shipJSON);
-	this.mesh = new THREE.Mesh(this.model.geometry, /*new THREE.MeshFaceMaterial(this.model.materials)*/ new THREE.MeshPhongMaterial({ color: 'gray' }));
+	this.mesh = new THREE.Mesh(this.model.geometry, new THREE.MeshFaceMaterial(this.model.materials));
 	this.mesh.castShadow = true;
 
 	this.pitchObject = new THREE.Object3D();
@@ -19,7 +19,6 @@ var Ship = function Ship(loader) {
 Ship.prototype.onMouseMove = function(x, y, movementX, movementY) {
 	this.yawObject.rotation.y -= movementX * 0.002;
 	this.pitchObject.rotation.x -= movementY * 0.002;
-
 	this.pitchObject.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this.pitchObject.rotation.x));
 };
 
