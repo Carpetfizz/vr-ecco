@@ -16,7 +16,7 @@ var scene,
 var Utils = require('../Utils.js');
 var Sky = require('../assets/Sky.js');
 var GroundTerrain = require('../assets/GroundTerrain.js');
-var Ship = require('../assets/Ship/ship.js');
+var Ship = require('../assets/Ship/Ship.js');
 var StarSystem = require('../assets/StarSystem.js');
 var Asteroid = require('../assets/Asteroid.js');
 var gameObjects = [];
