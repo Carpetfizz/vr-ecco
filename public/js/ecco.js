@@ -9,15 +9,27 @@ var scene,
 	stereo,
 	domElement,
 	controls,
-	started;
+	started,
+	socket,
+	ship;
 
 var Utils = require('../Utils.js');
 var Sky = require('../assets/Sky.js');
 var GroundTerrain = require('../assets/GroundTerrain.js');
-var Ship = require('../assets/Ship/Ship.js');
+var Ship = require('../assets/Ship/ship.js');
 var StarSystem = require('../assets/StarSystem.js');
 var Asteroid = require('../assets/Asteroid.js');
 var gameObjects = [];
+var keysPressed = {
+	'Q': false,
+	'E': false,
+	'W': false,
+	'A': false,
+	'S': false,
+	'D': false,
+	'Z': false,
+	'X': false
+};
 
 function init() {
 	started = true;
@@ -40,27 +52,38 @@ function init() {
 
 	setupScene();
 
+	socket = io().on('connect', function() {
+		socket.emit('initialize', roomID, 'client');
+	}).on('controller:keyup', function(key) {
+		keysPressed[key] = false;
+	}).on('controller:keydown', function(key) {
+		keysPressed[key] = true;
+	}).on('controller:mouseupdate', function(x, y, movementX, movementY) {
+		ship.onMouseMove(x, y, movementX, movementY);
+	});
+
 	if (isMobile) {
 		controls.connect();
 	}
 }
 
 function setupScene() {
-	var ship = new Ship(loader);
+	ship = new Ship(loader);
 
-	scene.add(ship);
-	ship.add(camera);
+	// scene.add(ship.mesh);
+	scene.add(ship.yawObject);
+	ship.mesh.add(camera);
 
 	scene.add(new GroundTerrain());
 	scene.add(new Sky(textureLoader));
 
-	camera.position.y = ship.position.y + 1;
-	camera.position.z = ship.position.z - 5;
+	camera.position.y = ship.mesh.position.y + 1;
+	camera.position.z = ship.mesh.position.z - 5;
 	camera.rotation.y = Math.PI;
 	camera.zoom = 1.2;
 
 	var light = new THREE.PointLight(0xffffff, 1, 100);
-	light.position.set(0, ship.position.y + 1, ship.position.z - 5);
+	light.position.set(0, ship.mesh.position.y + 1, ship.mesh.position.z - 5);
 	scene.add(light);
 
 	var hemiLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
@@ -99,8 +122,9 @@ function render() {
 function update(dt) {
 	resize();
 	controls.update();
+
 	for (var i = 0; i < gameObjects.length; i++) {
-		gameObjects[i].update(dt);
+		gameObjects[i].update(dt, keysPressed);
 	}
 	camera.updateProjectionMatrix();
 }

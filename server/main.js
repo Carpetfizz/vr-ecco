@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
 	res.render('controller', { roomID: roomID });
 });
 
-app.get('/client/:roomId', function(req, res) {
+app.get('/client/:roomID', function(req, res) {
 	res.render('client', { roomID: req.params.roomID });
 });
 
@@ -33,33 +33,23 @@ io.on('connection', function(socket) {
 		if (socket.type === 'client') {
 			socket.broadcast.to(socket.roomID).emit('client:connect');
 		}
-
-		console.info(`[${type}] initialize ${socket.roomID}`);
 	});
 
 	socket.on('controller:keyup', function(key) {
 		socket.broadcast.to(socket.roomID).emit('controller:keyup', key);
-
-		console.info(`[${socket.type}] controller:keyup ${key}`);
 	});
 
 	socket.on('controller:keydown', function(key) {
 		socket.broadcast.to(socket.roomID).emit('controller:keydown', key);
-
-		console.info(`[${socket.type}] controller:keydown ${key}`);
 	});
 
-	socket.on('controller:mouseupdate', function(x, y) {
-		socket.broadcast.to(socket.roomID).emit('controller:mouseupdate', x, y);
-
-		console.info(`[${socket.type}] controller:mouseupdate (${x}, ${y})`);
+	socket.on('controller:mouseupdate', function(x, y, movementX, movementY) {
+		socket.broadcast.to(socket.roomID).emit('controller:mouseupdate', x, y, movementX, movementY);
 	});
 
 	socket.on('disconnect', function() {
 		if (socket.type === 'client') {
 			socket.broadcast.to(socket.roomID).emit('client:disconnect');
 		}
-
-		console.info(`[${socket.type}] disconnect ${socket.roomID}`);
 	});
 });

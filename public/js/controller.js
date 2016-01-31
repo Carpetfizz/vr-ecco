@@ -30,7 +30,7 @@ function canvasLoop(e) {
 	y += movementY;
 
 	if (movementX > 0 || movementY > 0) {
-		controller.emit('controller:mouseupdate', x, y);
+		controller.emit('controller:mouseupdate', x, y, movementX, movementY);
 	}
 
 	window.requestAnimationFrame(canvasLoop);
@@ -38,7 +38,6 @@ function canvasLoop(e) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
 
 var controller = io();
 
@@ -54,8 +53,25 @@ controller.on('client:disconnect', function() {
 	document.body.className = 'disconnected';
 });
 
+var keysPressed = {
+	'E': false,
+	'W': false,
+	'Q': false,
+	'A': false,
+	'D': false,
+	'S': false,
+	'Z': false,
+	'X': false
+};
+
 window.addEventListener('keydown', function(event) {
 	var key = String.fromCharCode((event || window.event).which);
+
+	if (keysPressed[key]) {
+		return;
+	}
+
+	keysPressed[key] = true;
 
 	switch(key) {
 		case 'E':
@@ -64,6 +80,8 @@ window.addEventListener('keydown', function(event) {
 		case 'A':
 		case 'D':
 		case 'S':
+		case 'Z':
+		case 'X':
 			controller.emit('controller:keydown', key);
 	}
 });
@@ -71,6 +89,12 @@ window.addEventListener('keydown', function(event) {
 window.addEventListener('keyup', function(event) {
 	var key = String.fromCharCode((event || window.event).which);
 
+	if (!keysPressed[key]) {
+		return;
+	}
+
+	keysPressed[key] = false;
+
 	switch(key) {
 		case 'E':
 		case 'W':
@@ -78,6 +102,8 @@ window.addEventListener('keyup', function(event) {
 		case 'A':
 		case 'D':
 		case 'S':
+		case 'Z':
+		case 'X':
 			controller.emit('controller:keyup', key);
 	}
 });

@@ -1,11 +1,5 @@
 <html>
 	<head>
-		<script>
-			var isMobile = false;
-			if (/Mobi/.test(navigator.userAgent)) {
-			   	isMobile = true;
-			}
-		</script>
 		<style>
 			body {
 				margin: 0;
@@ -21,13 +15,23 @@
 				background-color: black;
 			}
 		</style>
+
+		<script src="/socket.io/socket.io.js"></script>
 		<script src="/libs/three.min.js"></script>
 		<script src="/libs/StereoEffect.js"></script>
 		<script src="/libs/DeviceOrientationController.js"></script>
-
 	</head>
 	<body>
 		<div id="container"></div>
+
+		<script>
+			var isMobile = false;
+			if (/Mobi/.test(navigator.userAgent)) {
+				isMobile = true;
+			}
+
+			var roomID = '<%= roomID %>';
+		</script>
 		<script src="/js/bundle.js"></script>
 	</body>
 </html>
