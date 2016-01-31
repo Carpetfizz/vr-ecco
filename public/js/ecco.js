@@ -75,15 +75,12 @@ function render() {
 	var elapsedSeconds = clock.getElapsedTime();
 	requestAnimationFrame(render);
 	update(clock.getDelta());
-	
-	stereo.render(scene, camera);
-	
-	//renderer.render(scene, camera);
-	/*if(isMobile){
+		
+	if(isMobile){
 		stereo.render(scene, camera);
 	}else{
 		renderer.render(scene, camera);
-	}*/
+	}
 }
 
 function update(dt){
