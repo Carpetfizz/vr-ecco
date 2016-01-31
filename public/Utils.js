@@ -17,6 +17,10 @@ var Utils = {
 	    createAxis(v(-axisLength, 0, 0), v(axisLength, 0, 0), 0xFF0000);
 	    createAxis(v(0, -axisLength, 0), v(0, axisLength, 0), 0x00FF00);
 	    createAxis(v(0, 0, -axisLength), v(0, 0, axisLength), 0x0000FF);
+	},
+	/* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random */
+	getRandomArbitrary: function(min, max) {
+  		return Math.random() * (max - min) + min;
 	}
 }
 
