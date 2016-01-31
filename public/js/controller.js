@@ -4,8 +4,11 @@ var ctx = canvas.getContext('2d');
 canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
 document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
 
-var x = 50;
-var y = 50;
+canvas.addEventListener('click', function() {
+	canvas.requestPointerLock();
+});
+
+var x = 50, y = 50;
 
 document.addEventListener('pointerlockchange', lockChangeAlert, false);
 document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
@@ -26,7 +29,9 @@ function canvasLoop(e) {
 	x += movementX;
 	y += movementY;
 
-	controller.emit('controller:mouseupdate', x, y);
+	if (movementX > 0 || movementY > 0) {
+		controller.emit('controller:mouseupdate', x, y);
+	}
 
 	window.requestAnimationFrame(canvasLoop);
 }
@@ -38,17 +43,14 @@ function canvasLoop(e) {
 var controller = io();
 
 controller.on('connect', function() {
-	controller.emit('controller:initialize', roomID);
+	controller.emit('initialize', roomID, 'controller');
 });
 
 controller.on('client:ready', function() {
-	// Show stuff
-
-	// Pointerlock
-	canvas.requestPointerLock();
+	canvas.height = canvas.width = 200;
 });
 
-canvas.addEventListener('keydown', function(event) {
+window.addEventListener('keydown', function(event) {
 	var key = String.fromCharCode((event || window.event).which);
 
 	switch(key) {
@@ -62,7 +64,7 @@ canvas.addEventListener('keydown', function(event) {
 	}
 });
 
-canvas.addEventListener('keyup', function(event) {
+window.addEventListener('keyup', function(event) {
 	var key = String.fromCharCode((event || window.event).which);
 
 	switch(key) {

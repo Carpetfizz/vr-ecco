@@ -27,39 +27,37 @@ server.listen(config.port, function(req, res) {
 });
 
 io.on('connection', function(socket) {
-	socket.on('client:initialize', function(id) {
-		socket.room = id;
-		socket.join(id);
+	socket.on('initialize', function(roomID, type) {
+		socket.roomID = roomID;
+		socket.type = type;
+		socket.join(roomID);
 
-		socket.broadcast.to(socket.room).emit('client:ready');
+		if (socket.type === 'client') {
+			socket.broadcast.to(socket.roomID).emit('client:ready');
+		}
 
-		socket.on('controller:keyup', function(key) {
-			socket.emit('controller:keyup', key);
-		});
-
-		socket.on('controller:keydown', function(key) {
-			socket.emit('controller:keydown', key);
-		});
-
-		socket.on('controller:mouseupdate', function(x, y) {
-			socket.emit('controller:mouseupdate', x, y);
-		});
+		console.info(`[${type}] initialize ${socket.roomID}`);
 	});
 
-	socket.on('controller:initialize', function(id) {
-		socket.room = id;
-		socket.join(id);
+	socket.on('controller:keyup', function(key) {
+		socket.broadcast.to(socket.roomID).emit('controller:keyup', key);
 
-		socket.on('controller:keyup', function(key) {
-			socket.broadcast.to(socket.room).emit('controller:keyup', key);
-		});
+		console.info(`[${socket.type}] controller:keyup ${key}`);
+	});
 
-		socket.on('controller:keydown', function(key) {
-			socket.broadcast.to(socket.room).emit('controller:keydown', key);
-		});
+	socket.on('controller:keydown', function(key) {
+		socket.broadcast.to(socket.roomID).emit('controller:keydown', key);
 
-		socket.on('controller:mouseupdate', function(x, y) {
-			socket.broadcast.to(socket.room).emit('controller:mouseupdate', x, y);
-		});
+		console.info(`[${socket.type}] controller:keydown ${key}`);
+	});
+
+	socket.on('controller:mouseupdate', function(x, y) {
+		socket.broadcast.to(socket.roomID).emit('controller:mouseupdate', x, y);
+
+		console.info(`[${socket.type}] controller:mouseupdate (${x}, ${y})`);
+	});
+
+	socket.on('disconnect', function() {
+		console.info(`[${socket.type}] disconnect ${socket.roomID}`);
 	});
 });
