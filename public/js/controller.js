@@ -26,7 +26,7 @@ function canvasLoop(e) {
 	x += movementX;
 	y += movementY;
 
-	socket.emit('controller:mouseupdate', x, y);
+	controller.emit('controller:mouseupdate', x, y);
 
 	window.requestAnimationFrame(canvasLoop);
 }
@@ -35,13 +35,13 @@ function canvasLoop(e) {
 ////////////////////////////////////////////////////////////////////////////////
 
 
-var socket = io();
+var controller = io();
 
-socket.on('connect', function() {
-	socket.emit('controller:initialize', roomID);
+controller.on('connect', function() {
+	controller.emit('controller:initialize', roomID);
 });
 
-socket.on('client:ready', function() {
+controller.on('client:ready', function() {
 	// Show stuff
 
 	// Pointerlock
@@ -58,7 +58,7 @@ canvas.addEventListener('keydown', function(event) {
 		case 'A':
 		case 'D':
 		case 'S':
-			socket.emit('keydown', key);
+			controller.emit('controller:keydown', key);
 	}
 });
 
@@ -72,6 +72,6 @@ canvas.addEventListener('keyup', function(event) {
 		case 'A':
 		case 'D':
 		case 'S':
-			socket.emit('keyup', key);
+			controller.emit('controller:keyup', key);
 	}
 });
