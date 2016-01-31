@@ -1,5 +1,6 @@
 ### Custom
 config.js
+bundle.js
 
 ### OSX
 .DS_Store
