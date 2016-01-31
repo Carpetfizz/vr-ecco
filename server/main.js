@@ -10,12 +10,10 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/../public'));
 app.set('views', __dirname + '/../views');
 
-var rooms = [];
-
 app.get('/', function(req, res) {
-	var roomID = shortid.generate();
-	rooms.push(roomID);
-	res.render('controller', { roomID: roomID /* Generate bit.ly URL and send it here too */ });
+	var roomID = shortid.generate(); /** @todo Generate bit.ly URL from this */
+
+	res.render('controller', { roomID: roomID });
 });
 
 app.get('/client/:roomId', function(req, res) {
@@ -33,7 +31,7 @@ io.on('connection', function(socket) {
 		socket.join(roomID);
 
 		if (socket.type === 'client') {
-			socket.broadcast.to(socket.roomID).emit('client:ready');
+			socket.broadcast.to(socket.roomID).emit('client:connect');
 		}
 
 		console.info(`[${type}] initialize ${socket.roomID}`);
@@ -58,6 +56,10 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('disconnect', function() {
+		if (socket.type === 'client') {
+			socket.broadcast.to(socket.roomID).emit('client:disconnect');
+		}
+
 		console.info(`[${socket.type}] disconnect ${socket.roomID}`);
 	});
 });

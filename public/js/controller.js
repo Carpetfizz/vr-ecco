@@ -46,8 +46,12 @@ controller.on('connect', function() {
 	controller.emit('initialize', roomID, 'controller');
 });
 
-controller.on('client:ready', function() {
-	canvas.height = canvas.width = 200;
+controller.on('client:connect', function() {
+	document.body.className = 'connected';
+});
+
+controller.on('client:disconnect', function() {
+	document.body.className = 'disconnected';
 });
 
 window.addEventListener('keydown', function(event) {
